@@ -1,3 +1,9 @@
+xsession-initscript-kanotix (0.6.1) unstable; urgency=low
+
+  * fix postrm.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri,  9 Sep 2005 23:53:16 +0200
+
 xsession-initscript-kanotix (0.6) unstable; urgency=low
 
   * initial X.org support.
