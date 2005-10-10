@@ -1,10 +1,9 @@
-xsession-initscript-kanotix (0.6.2) UNRELEASED; urgency=low
+xsession-initscript-kanotix (0.6.2) unstable; urgency=low
 
-  * NOT RELEASED YET
   * re- indent.
   * add distro-defaults support.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 17:16:31 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 17:17:45 +0200
 
 xsession-initscript-kanotix (0.6.1) unstable; urgency=low
 
