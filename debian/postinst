@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # override tool behaviour through distro-defaults
 FLL_DISTRO_MODE="installed"
