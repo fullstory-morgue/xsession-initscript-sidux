@@ -1,8 +1,19 @@
 #!/bin/bash
 # Single Xwindow/KDE startup script
 # (C) Klaus Knopper Jun 2001
+# (C) 2005 modified by Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
-USER=knoppix
+# override tool behaviour through distro-defaults
+FLL_DISTRO_MODE="installed"
+FLL_LIVE_USER="knoppix"
+if [ -r /etc/default/distro ]; then
+        source /etc/default/distro
+fi
+
+# don't ever start me on an installed system
+[ ! "$FLL_DISTRO_MODE" == "live" ] && exit 0
+
+USER="$FLL_LIVE_USER"
 
 PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:."
 export PATH
