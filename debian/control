@@ -6,7 +6,7 @@ Build-Depends-Indep: cdbs (>= 0.4.23-1.1), build-essential, debhelper (>= 4.1.0)
 Standards-Version: 3.6.2
 
 Package: xsession-initscript-kanotix
-Depends: kanotix-graphics, xloadimage
+Depends: kanotix-graphics, xloadimage, distro-defaults
 Architecture: all
 Description: Starts X-Window system from INIT on KANOTIX
  Custom Initscripts for the KANOTIX live X11 capabilities.
