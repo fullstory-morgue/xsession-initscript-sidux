@@ -1,8 +1,8 @@
-xsession-initscript-kanotix (0.6.3) UNRELEASED; urgency=low
+xsession-initscript-kanotix (0.6.3) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * add i810 svga mode hack.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 17:24:07 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 15 Oct 2005 22:47:51 +0200
 
 xsession-initscript-kanotix (0.6.2) unstable; urgency=low
 

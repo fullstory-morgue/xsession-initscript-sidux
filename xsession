@@ -29,8 +29,8 @@ RUNLEVEL5=""
 case "$(runlevel)" in *\ 5) RUNLEVEL5="true" ;; esac
 
 XMODULE=""
-[ -f /etc/sysconfig/xserver ] && . /etc/sysconfig/xserver
-[ -f /etc/sysconfig/knoppix ] && . /etc/sysconfig/knoppix
+[ -f /etc/sysconfig/xserver ] && source /etc/sysconfig/xserver
+[ -f /etc/sysconfig/knoppix ] && source /etc/sysconfig/knoppix
 
 [ -n "$BACKGROUND" -a -e "$BACKGROUND" ] || BACKGROUND="-solid black"
 
@@ -86,6 +86,32 @@ case "$1" in
 		NORESET=""
 		[ -n "$XSERVER" -a -x "/usr/X11R6/bin/$XSERVER" ] && ACCEL="$XSERVER"
 		[ -L /etc/X11/X ] && ACCEL="$ACCEL /etc/X11/X"
+		
+		# hack i810 vga modes
+		if [ -z "$NO855RES" -a "$XMODULE" == "i810" -a -x /usr/sbin/855resolution ]; then
+			if ! 855resolution -l 2>/dev/null | grep -q $XSCREEN; then
+				855resolution 5c ${XSCREEN/x*} ${XSCREEN#*x} &>/dev/null
+				
+				mkdir -p /etc/default/
+				rm -f /etc/default/855resolution
+				
+				cat > /etc/default/855resolution <<EOF
+#
+# 855resolution default
+#
+# find free modes by  /usr/sbin/855resolution -l
+# and set it to MODE
+#
+MODE=5c
+
+#
+# and set resolutions for the mode.
+#
+XRESO=${XSCREEN/x*}
+YRESO=${XSCREEN#*x}
+EOF
+			fi
+		fi
 
 		# Try to find and load an agp and drm module for this graphics card
 		KVER="$(uname -r)"
