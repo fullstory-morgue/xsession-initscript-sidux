@@ -1,3 +1,9 @@
+xsession-initscript-kanotix (0.6.5) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  8 Dec 2005 02:15:13 +0100
+
 xsession-initscript-kanotix (0.6.4) unstable; urgency=low
 
   * changed res detection for i810 hack. 
