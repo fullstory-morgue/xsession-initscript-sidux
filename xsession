@@ -89,7 +89,7 @@ case "$1" in
 		
 		# hack i810 vga modes
 		if [ -z "$NO855RES" -a "$XMODULE" == "i810" -a -x /usr/sbin/855resolution ]; then
-			if ! 855resolution -l 2>/dev/null | grep -q $XSCREEN; then
+			if [[ $(855resolution -l 2>/dev/null) != *$XSCREEN* ]]; then
 				855resolution 5c ${XSCREEN/x*} ${XSCREEN#*x} &>/dev/null
 				
 				mkdir -p /etc/default/
