@@ -88,18 +88,18 @@ case "$1" in
 		[ -L /etc/X11/X ] && ACCEL="$ACCEL /etc/X11/X"
 		
 		# hack i810 vga modes
-		if [ -z "$NO855RES" -a "$XMODULE" == "i810" -a -x /usr/sbin/855resolution ]; then
-			if [[ $(855resolution -l 2>/dev/null) != *$XSCREEN* ]]; then
-				855resolution 5c ${XSCREEN/x*} ${XSCREEN#*x} &>/dev/null
+		if [ -z "$NO915RES" -a "$XMODULE" == "i810" -a -x /usr/sbin/915resolution ]; then
+			if [[ $(915resolution -l 2>/dev/null) != *$XSCREEN* ]]; then
+				915resolution 5c ${XSCREEN/x*} ${XSCREEN#*x} &>/dev/null
 				
 				mkdir -p /etc/default/
-				rm -f /etc/default/855resolution
+				rm -f /etc/default/915resolution
 				
-				cat > /etc/default/855resolution <<EOF
+				cat > /etc/default/915resolution <<EOF
 #
-# 855resolution default
+# 915resolution default
 #
-# find free modes by  /usr/sbin/855resolution -l
+# find free modes by  /usr/sbin/915resolution -l
 # and set it to MODE
 #
 MODE=5c

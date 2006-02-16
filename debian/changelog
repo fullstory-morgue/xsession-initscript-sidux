@@ -1,8 +1,15 @@
-xsession-initscript-kanotix (0.6.5) UNRELEASED; urgency=low
+xsession-initscript-kanotix (0.6.6) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * remove cdbs auto-update feature.
+  * bump compat level to 5.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  8 Dec 2005 02:15:13 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 16 Feb 2006 11:11:11 +0100
+
+xsession-initscript-kanotix (0.6.5) unstable; urgency=low
+
+  * use 915resolution instead of 855resolution.
+  
+ -- Joerg Schirottke <master@kanotix.com>  Fri, 20 Jan 2006 16:07:29 +0100
 
 xsession-initscript-kanotix (0.6.4) unstable; urgency=low
 
