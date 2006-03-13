@@ -1,9 +1,9 @@
-xsession-initscript-kanotix (0.6.7) UNRELEASED; urgency=low
+xsession-initscript-kanotix (0.6.7) unstable; urgency=low
 
-  * NOT RELEASED YET
   * bump compat level to 5.
+  * add missing dependency for hwsetup-ng.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 12 Mar 2006 00:25:30 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 13 Mar 2006 10:35:24 +0100
 
 xsession-initscript-kanotix (0.6.6) unstable; urgency=low
 
