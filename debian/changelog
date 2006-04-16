@@ -1,3 +1,9 @@
+xsession-initscript-kanotix (0.6.9) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 16 Apr 2006 21:03:29 +0200
+
 xsession-initscript-kanotix (0.6.8) unstable; urgency=low
 
   * Xorg 7 support. 
