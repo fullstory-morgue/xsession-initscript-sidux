@@ -1,3 +1,9 @@
+xsession-initscript-kanotix (0.6.8) unstable; urgency=low
+
+  * Xorg 7 support. 
+
+ -- Joerg Schirottke <master@kanotix.com>  Fri, 14 Apr 2006 00:16:06 +0200
+
 xsession-initscript-kanotix (0.6.7) unstable; urgency=low
 
   * bump compat level to 5.

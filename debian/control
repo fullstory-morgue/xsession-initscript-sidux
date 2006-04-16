@@ -7,6 +7,7 @@ Standards-Version: 3.6.2
 
 Package: xsession-initscript-kanotix
 Depends: initscripts-kanotix-live, kanotix-graphics, xloadimage, distro-defaults
+Suggests: 915resolution
 Architecture: all
 Description: Starts X-Window system from INIT on KANOTIX
  Custom Initscripts for the KANOTIX live X11 capabilities.

@@ -35,7 +35,7 @@ XMODULE=""
 [ -n "$BACKGROUND" -a -e "$BACKGROUND" ] || BACKGROUND="-solid black"
 
 # Xorg workaround
-if [ -x /usr/X11R6/bin/Xorg ]; then
+if [ -x /usr/X11R6/bin/Xorg -o -x /usr/bin/Xorg ]; then
 	XSERVER="Xorg"
 	SOCKET_DIR=/tmp/.X11-unix
 	ICE_DIR=/tmp/.ICE-unix
@@ -85,6 +85,7 @@ case "$1" in
 		[ "$CUSTOM_DPI" = "auto" ] && DPI=""
 		NORESET=""
 		[ -n "$XSERVER" -a -x "/usr/X11R6/bin/$XSERVER" ] && ACCEL="$XSERVER"
+		[ -n "$XSERVER" -a -x "/usr/bin/$XSERVER" ] && ACCEL="$XSERVER"
 		[ -L /etc/X11/X ] && ACCEL="$ACCEL /etc/X11/X"
 		
 		# hack i810 vga modes
@@ -94,7 +95,6 @@ case "$1" in
 				
 				mkdir -p /etc/default/
 				rm -f /etc/default/915resolution
-				
 				cat > /etc/default/915resolution <<EOF
 #
 # 915resolution default
