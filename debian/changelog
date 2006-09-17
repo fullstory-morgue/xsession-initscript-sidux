@@ -1,8 +1,8 @@
-xsession-initscript-kanotix (0.6.9) UNRELEASED; urgency=low
+xsession-initscript-kanotix (0.6.9) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * Disable TCP listening. 
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun, 16 Apr 2006 21:03:29 +0200
+ -- Joerg Schirottke <master@kanotix.com>  Thu,  7 Sep 2006 14:00:27 +0200
 
 xsession-initscript-kanotix (0.6.8) unstable; urgency=low
 

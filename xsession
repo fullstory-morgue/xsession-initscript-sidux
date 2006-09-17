@@ -34,6 +34,12 @@ XMODULE=""
 
 [ -n "$BACKGROUND" -a -e "$BACKGROUND" ] || BACKGROUND="-solid black"
 
+# Disable TCP listening
+NOLISTEN="-nolisten tcp"
+
+# Black
+BR="-br"
+
 # Xorg workaround
 if [ -x /usr/X11R6/bin/Xorg -o -x /usr/bin/Xorg ]; then
 	XSERVER="Xorg"
@@ -81,7 +87,7 @@ case "$1" in
 		ACCEL=""
 		XOPTIONS=""
 		DPI="-dpi 72"
-		[ "$CUSTOM_DPI" ] && DPI="-dpi $CUSTOM_DPI"
+		[ -n "$CUSTOM_DPI" ] && DPI="-dpi $CUSTOM_DPI"
 		[ "$CUSTOM_DPI" = "auto" ] && DPI=""
 		NORESET=""
 		[ -n "$XSERVER" -a -x "/usr/X11R6/bin/$XSERVER" ] && ACCEL="$XSERVER"
@@ -194,15 +200,15 @@ EOF
 			esac
 
 			# Try hwsetup-generated flags first, if present
-			$X $NORESET -xf86config "$XCONFIG" $XOPTIONS $DPI :0 2>/dev/null && break
+			$X $NOLISTEN $NORESET -xf86config "$XCONFIG" $XOPTIONS $DPI $BR :0 2>/dev/null && break
 			
 			# Mostly failsafe probe fallbacks
 			# Some cards prefer 16 bit, especially when low on mem or not SVGA,
 			# so try this first.
-			if $X $NORESET -xf86config "$XCONFIG" $BPP 16 $DPI :0 2>/dev/null || \
-			   $X $NORESET -xf86config "$XCONFIG" $BPP 24 $DPI :0 2>/dev/null || \
-			   $X $NORESET -xf86config "$XCONFIG" $BPP 32 $DPI :0 2>/dev/null || \
-			   $X $NORESET -xf86config "$XCONFIG" $BPP  8 $DPI :0 2>/dev/null; then
+			if $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 16 $DPI $BR :0 2>/dev/null || \
+			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 24 $DPI $BR :0 2>/dev/null || \
+			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 32 $DPI $BR :0 2>/dev/null || \
+			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP  8 $DPI $BR :0 2>/dev/null; then
 				break
 			fi
 			
