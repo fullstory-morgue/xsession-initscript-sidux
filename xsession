@@ -11,7 +11,7 @@ if [ -r /etc/default/distro ]; then
 fi
 
 # don't ever start me on an installed system
-[ ! "$FLL_DISTRO_MODE" == "live" ] && exit 0
+[ ! "$FLL_DISTRO_MODE" = "live" ] && exit 0
 
 USER="$FLL_LIVE_USER"
 
@@ -95,7 +95,7 @@ case "$1" in
 		[ -L /etc/X11/X ] && ACCEL="$ACCEL /etc/X11/X"
 		
 		# hack i810 vga modes
-		if [ -z "$NO915RES" -a "$XMODULE" == "i810" -a -x /usr/sbin/915resolution ]; then
+		if [ -z "$NO915RES" -a "$XMODULE" = "i810" -a -x /usr/sbin/915resolution ]; then
 			if [[ $(915resolution -l 2>/dev/null) != *$XSCREEN* ]]; then
 				915resolution 5c ${XSCREEN/x*} ${XSCREEN#*x} &>/dev/null
 				
@@ -207,7 +207,6 @@ EOF
 			# so try this first.
 			if $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 16 $DPI $BR :0 2>/dev/null || \
 			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 24 $DPI $BR :0 2>/dev/null || \
-			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 32 $DPI $BR :0 2>/dev/null || \
 			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP  8 $DPI $BR :0 2>/dev/null; then
 				break
 			fi
