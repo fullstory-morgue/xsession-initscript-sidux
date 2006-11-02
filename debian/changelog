@@ -1,8 +1,8 @@
-xsession-initscript-kanotix (0.6.11) UNRELEASED; urgency=low
+xsession-initscript-kanotix (0.6.11) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * fix lintian errors.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon,  2 Oct 2006 14:30:04 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  2 Nov 2006 14:26:25 +0100
 
 xsession-initscript-kanotix (0.6.10) unstable; urgency=low
 
