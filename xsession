@@ -15,7 +15,7 @@ fi
 
 USER="$FLL_LIVE_USER"
 
-PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:."
+PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:."
 export PATH
 
 umask 022
@@ -129,8 +129,10 @@ EOF
 						;;
 					*)
 						for i in /lib/modules/"$KVER"/kernel/drivers/char/agp/*; do
-							module="${i##*/}"; module="${module%%.*}"; modprobe ${module} >/dev/null 2>&1
+							module="${i##*/}"; module="${module%%.*}"
+							modprobe ${module} >/dev/null 2>&1
 						done
+
 						# remove unused agp modules
 						for module in $(awk '/_agp/{if ($3==0) print $1}' /proc/modules); do
 							rmmod $module 2>/dev/null
