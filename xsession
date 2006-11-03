@@ -156,18 +156,18 @@ EOF
 		fi
 
 		for X in $ACCEL vesa fbdev; do
-			# Use customized version of XF86Config
-			XCONFIG="/etc/X11/XF86Config"
+			# Use customized version of X_CONF
+			X_CONF="/etc/X11/XF86Config"
 			BPP="-bpp"
 			
 			case "$X" in
 				*XFree86*)
-					XCONFIG="/etc/X11/XF86Config-4"
+					X_CONF="/etc/X11/XF86Config-4"
 					BPP="-depth"
 					NORESET="-noreset"
 					;;
 				*Xorg*)
-					XCONFIG="/etc/X11/XF86Config-4"
+					X_CONF="/etc/X11/XF86Config-4"
 					BPP="-depth"
 					NORESET="-noreset"
 					;;
@@ -194,7 +194,7 @@ EOF
 							;;
 					esac	
 					
-					XCONFIG="/etc/X11/XF86Config-4"
+					X_CONF="/etc/X11/XF86Config-4"
 					BPP="-depth"
 					NORESET="-noreset"
 					XOPTIONS=""
@@ -202,14 +202,14 @@ EOF
 			esac
 
 			# Try hwsetup-generated flags first, if present
-			$X $NOLISTEN $NORESET -xf86config "$XCONFIG" $XOPTIONS $DPI $BR :0 2>/dev/null && break
+			$X $NOLISTEN $NORESET -xf86config "$X_CONF" $XOPTIONS $DPI $BR :0 2>/dev/null && break
 			
 			# Mostly failsafe probe fallbacks
 			# Some cards prefer 16 bit, especially when low on mem or not SVGA,
 			# so try this first.
-			if $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 16 $DPI $BR :0 2>/dev/null || \
-			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP 24 $DPI $BR :0 2>/dev/null || \
-			   $X $NOLISTEN $NORESET -xf86config "$XCONFIG" $BPP  8 $DPI $BR :0 2>/dev/null; then
+			if $X $NOLISTEN $NORESET -xf86config "$X_CONF" $BPP 16 $DPI $BR :0 2>/dev/null || \
+			   $X $NOLISTEN $NORESET -xf86config "$X_CONF" $BPP 24 $DPI $BR :0 2>/dev/null || \
+			   $X $NOLISTEN $NORESET -xf86config "$X_CONF" $BPP  8 $DPI $BR :0 2>/dev/null; then
 				break
 			fi
 			
@@ -300,7 +300,7 @@ EOF
 			fi
 		else
 			echo "with errors."
-			echo "${RED}Please check $XCONFIG and retry ${CYAN}'$0 start'${RED}.${NORMAL}"
+			echo "${RED}Please check $X_CONF and retry ${CYAN}'$0 start'${RED}.${NORMAL}"
 		fi
 	        ;;
 	stop)
