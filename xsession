@@ -1,7 +1,7 @@
 #!/bin/bash
 # Single Xwindow/KDE startup script
 # (C) Klaus Knopper Jun 2001
-# (C) 2005 modified by Stefan Lippers-Hollmann <s.l-h@gmx.de>
+# (C) 2005, 2006 modified by Stefan Lippers-Hollmann <s.l-h@gmx.de>
 
 # override tool behaviour through distro-defaults
 FLL_DISTRO_MODE="installed"
@@ -13,9 +13,14 @@ fi
 # don't ever start me on an installed system
 [ ! "$FLL_DISTRO_MODE" = "live" ] && exit 0
 
-USER="$FLL_LIVE_USER"
+XSERVER="Xorg"
+X_CONF="/etc/X11/xorg.conf"
+HWSETUP_XSERVER="/etc/sysconfig/xserver"
+HWSETUP_MAIN="/etc/sysconfig/knoppix"
+XSESSION_COMMANDS="/etc/sysconfig/xsession-commands"
+XSESSION_RESTART="/etc/sysconfig/xsession-restart"
 
-PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:."
+PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 export PATH
 
 umask 022
@@ -26,11 +31,15 @@ BLUE="[1;34m"
 NORMAL="[1;39m"
 
 RUNLEVEL5=""
-case "$(runlevel)" in *\ 5) RUNLEVEL5="true" ;; esac
+case "$(runlevel)" in
+	*\ 5)
+		RUNLEVEL5="true"
+		;;
+esac
 
 XMODULE=""
-[ -f /etc/sysconfig/xserver ] && source /etc/sysconfig/xserver
-[ -f /etc/sysconfig/knoppix ] && source /etc/sysconfig/knoppix
+[ -f "$HWSETUP_XSERVER" ] &&	source "$HWSETUP_XSERVER"
+[ -f "$HWSETUP_MAIN" ] &&	source "$HWSETUP_MAIN"
 
 [ -n "$BACKGROUND" -a -e "$BACKGROUND" ] || BACKGROUND="-solid black"
 
@@ -40,23 +49,19 @@ NOLISTEN="-nolisten tcp"
 # Black
 BR="-br"
 
-# Xorg workaround
-if [ -x /usr/X11R6/bin/Xorg -o -x /usr/bin/Xorg ]; then
-	XSERVER="Xorg"
-	SOCKET_DIR=/tmp/.X11-unix
-	ICE_DIR=/tmp/.ICE-unix
-	mkdir -p $SOCKET_DIR
-	chown 0:0 $SOCKET_DIR
-	chmod 1777 $SOCKET_DIR
-	mkdir -p $ICE_DIR
-	chown 0:0 $ICE_DIR
-	chmod 1777 $ICE_DIR
-fi
+SOCKET_DIR=/tmp/.X11-unix
+ICE_DIR=/tmp/.ICE-unix
+mkdir -p $SOCKET_DIR
+chown 0:0 $SOCKET_DIR
+chmod 1777 $SOCKET_DIR
+mkdir -p $ICE_DIR
+chown 0:0 $ICE_DIR
+chmod 1777 $ICE_DIR
 
 # See how we were called.
 case "$1" in
 	start)
-		rm -f /etc/sysconfig/xsession-restart
+		rm -f "$XSESSION_RESTART"
 		# Don't start X if brltty is running!
 		BPID="$(pidof brltty 2>/dev/null)"
 		[ "$?" = "0" ] && exit 0
@@ -72,7 +77,7 @@ case "$1" in
 		fi
 
 		echo ""
-		echo "	${NORMAL}Starting single X-Window session for User $USER."
+		echo "	${NORMAL}Starting single X-Window session for User $FLL_LIVE_USER."
 		echo "	Please stand by a few seconds while the optimal configuration"
 		echo "	is being determined."
 		
@@ -90,7 +95,6 @@ case "$1" in
 		[ -n "$CUSTOM_DPI" ] && DPI="-dpi $CUSTOM_DPI"
 		[ "$CUSTOM_DPI" = "auto" ] && DPI=""
 		NORESET=""
-		[ -n "$XSERVER" -a -x "/usr/X11R6/bin/$XSERVER" ] && ACCEL="$XSERVER"
 		[ -n "$XSERVER" -a -x "/usr/bin/$XSERVER" ] && ACCEL="$XSERVER"
 		[ -L /etc/X11/X ] && ACCEL="$ACCEL /etc/X11/X"
 		
@@ -120,31 +124,25 @@ EOF
 		fi
 
 		# Try to find and load an agp and drm module for this graphics card
-		KVER="$(uname -r)"
-		# Kernel 2.6: Load specific AGPGART module(s)
-		case "$KVER" in
-			2.6.*)
-				case "$(cat /proc/cmdline)" in
-					*noagp*)
-						;;
-					*)
-						for i in /lib/modules/"$KVER"/kernel/drivers/char/agp/*; do
-							module="${i##*/}"; module="${module%%.*}"
-							modprobe ${module} >/dev/null 2>&1
-						done
+		case "$(cat /proc/cmdline)" in
+			*noagp*)
+				;;
+			*)
+				for i in /lib/modules/$(uname -r)/kernel/drivers/char/agp/*; do
+					module="${i##*/}"; module="${module%%.*}"
+					modprobe ${module} >/dev/null 2>&1
+				done
 
-						# remove unused agp modules
-						for module in $(awk '/_agp/{if ($3==0) print $1}' /proc/modules); do
-							rmmod $module 2>/dev/null
-						done
-						;;
-				esac
+				# remove unused agp modules
+				for module in $(awk '/_agp/{if ($3==0) print $1}' /proc/modules); do
+					rmmod $module 2>/dev/null
+				done
 				;;
 		esac
 
 		if [ -n "$XMODULE" ]; then
 			# All kernels: Load drm module
-			for i in /lib/modules/"$KVER"/kernel/drivers/char/drm/*; do
+			for i in /lib/modules/$(uname -r)/kernel/drivers/char/drm/*; do
 				case "$i" in
 					*$XMODULE*)
 						module="${i##*/}"
@@ -156,45 +154,23 @@ EOF
 		fi
 
 		for X in $ACCEL vesa fbdev; do
-			# Use customized version of X_CONF
-			X_CONF="/etc/X11/XF86Config"
 			BPP="-bpp"
 			
 			case "$X" in
-				*XFree86*)
-					X_CONF="/etc/X11/XF86Config-4"
-					BPP="-depth"
-					NORESET="-noreset"
-					;;
 				*Xorg*)
-					X_CONF="/etc/X11/XF86Config-4"
 					BPP="-depth"
 					NORESET="-noreset"
 					;;
 				vesa|fbdev)
-					for i in xserver knoppix; do
-						if ! [ -x /usr/X11R6/bin/Xorg ]; then
-							echo 'XSERVER="XFree86"' >> /etc/sysconfig/$i;
-							XSERVER="XFree86"
-						fi
-						echo 'XMODULE="'"$X"'"' >> /etc/sysconfig/$i;
-					done
+					echo "XMODULE=\"$X\"" >> "$HWSETUP_MAIN"
+					echo "XMODULE=\"$X\"" >> "$HWSETUP_XSERVER"
 					
 					echo "${NORMAL}"
 					echo -n "${BLUE}Retrying with Server ${GREEN}${XSERVER}(${YELLOW}$X${GREEN})${NORMAL} "
-					rm -f /etc/X11/XF86Config-4
+					rm -f "$X_CONF"
 					mkxf86config >/dev/null 2>&1
 					
-					case $XSERVER in
-						Xorg)
-							X=Xorg
-							;;
-						*)
-							X=XFree86
-							;;
-					esac	
-					
-					X_CONF="/etc/X11/XF86Config-4"
+					X=Xorg
 					BPP="-depth"
 					NORESET="-noreset"
 					XOPTIONS=""
@@ -237,18 +213,18 @@ EOF
 		fi
 
 		# FIXME: Move to others
-		rm -f /etc/sysconfig/xsession-commands
-		touch /etc/sysconfig/xsession-commands
-		chown $USER.$USER /etc/sysconfig/xsession-commands
+		rm -f "$XSESSION_COMMANDS"
+		touch "$XSESSION_COMMANDS"
+		chown $FLL_LIVE_USER:$FLL_LIVE_USER "$XSESSION_COMMANDS"
 
-		su -c "DISPLAY=:0 exec /etc/X11/xinit/xinitrc" - $USER >/dev/null 2>&1
+		su -c "DISPLAY=:0 exec /etc/X11/xinit/xinitrc" - $FLL_LIVE_USER >/dev/null 2>&1
 		RC="$?"
 
-		XSESSION_COMMAND=$(cat /etc/sysconfig/xsession-commands) # Read in what kde / ... told us.
+		XSESSION_COMMAND=$(cat "$XSESSION_COMMANDS") # Read in what kde / ... told us.
 
 		# After xsession exits, end X-Server
-		for i in $ACCEL $X $XSERVER XFree86 XF86_SVGA; do
-			killall -TERM $i 2>/dev/null && break
+		for i in $ACCEL $X $XSERVER Xorg; do
+			killall -TERM "$i" 2>/dev/null && break
 		done
 		
 		echo ""
@@ -266,12 +242,12 @@ EOF
 						NEXT_RUNLEVEL=6
 						;;
 					kde_restart)
-						[ ! -f /etc/sysconfig/xsession-restart ] && exec $0 start
+						[ ! -f "$XSESSION_RESTART" ] && exec $0 start
 						;;
 				esac
 			fi
 
-			if [ -n "$RUNLEVEL5" -a ! -f /etc/sysconfig/xsession-restart ]; then
+			if [ -n "$RUNLEVEL5" -a ! -f "$XSESSION_RESTART" ]; then
 				echo "Shutting down.${NORMAL}"
 				# Play informational sound if soundcore module present
 				# (checking /dev/sndstat is unreliable)
@@ -306,18 +282,18 @@ EOF
 	stop)
 		# Stop daemons.
 		# Don't shutdown if killed by init or manually
-		touch /etc/sysconfig/xsession-restart
+		touch "$XSESSION_RESTART"
 		
 		for i in $XSERVER XF86_SVGA; do
-			killall -TERM $i 2>/dev/null && echo "${BLUE}X-Server shut down.${NORMAL}" && break
+			killall -TERM "$i" 2>/dev/null && echo "${BLUE}X-Server shut down.${NORMAL}" && break
 		done
 		;;
 	restart)
-		touch /etc/sysconfig/xsession-restart
+		touch "$XSESSION_RESTART"
 		( nohup bash -c "$0 stop; sleep 5; $0 start" & )
 		;;
 	force-reload)
-		touch /etc/sysconfig/xsession-restart
+		touch "$XSESSION_RESTART"
 		( nohup bash -c "$0 stop; sleep 5; $0 start" & )
 		;;
 	*)

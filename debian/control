@@ -6,7 +6,7 @@ Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 5.0.0)
 Standards-Version: 3.7.2
 
 Package: xsession-initscript-kanotix
-Depends: initscripts-kanotix-live, kanotix-graphics, xloadimage, distro-defaults
+Depends: initscripts-kanotix-live, kanotix-graphics, xloadimage, distro-defaults, xf86config-kanotix (>= 0.9.11)
 Suggests: 915resolution
 Architecture: all
 Description: Starts X-Window system from INIT on KANOTIX

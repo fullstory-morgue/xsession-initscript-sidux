@@ -1,10 +1,12 @@
-xsession-initscript-kanotix (0.6.12) UNRELEASED; urgency=low
+xsession-initscript-kanotix (0.6.12) unstable; urgency=low
 
-  * NOT RELEASED YET
   * don't add /usr/X11R6/bin/ to search path.
-  * standardize on X_CONF.
+  * standardize on X_CONF and FLL_LIVE_USER.
+  * remove compatibilty glue for XFree86 4.x and kernel < 2.6.
+  * streamline code flow.
+  * add missing dependency on xf86config-kanotix.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri,  3 Nov 2006 18:45:40 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri,  3 Nov 2006 20:07:02 +0100
 
 xsession-initscript-kanotix (0.6.11) unstable; urgency=low
 
