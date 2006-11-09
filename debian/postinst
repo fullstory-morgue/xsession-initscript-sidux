@@ -7,7 +7,7 @@ if [ -r /etc/default/distro ]; then
 fi
 
 # don't ever start me on an installed system
-[ ! "$FLL_DISTRO_MODE" == "live" ] && exit 0
+[ ! "$FLL_DISTRO_MODE" = "live" ] && exit 0
 
 
 case "$1" in
@@ -38,5 +38,4 @@ esac
 #DEBHELPER#
 
 exit 0
-
 
