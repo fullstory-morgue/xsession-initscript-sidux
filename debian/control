@@ -1,13 +1,14 @@
-Source: xsession-initscript-kanotix
+Source: xsession-initscript-sidux
 Section: base
 Priority: optional
 Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
 Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 5.0.0)
 Standards-Version: 3.7.2
 
-Package: xsession-initscript-kanotix
-Depends: initscripts-kanotix-live, kanotix-graphics, xloadimage, distro-defaults, xf86config-kanotix (>= 0.9.11)
+Package: xsession-initscript-sidux
+Depends: initscripts-sidux-live, sidux-graphics, xloadimage, distro-defaults, xf86config-sidux (>= 0.9.11)
+Conflicts: xsession-initscript-kanotix
 Suggests: 915resolution
 Architecture: all
-Description: Starts X-Window system from INIT on KANOTIX
- Custom Initscripts for the KANOTIX live X11 capabilities.
+Description: Starts X-Window system from INIT on Sidux
+ Custom Initscripts for the Sidux live X11 capabilities.
