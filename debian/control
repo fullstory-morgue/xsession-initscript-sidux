@@ -10,5 +10,5 @@ Depends: initscripts-sidux-live, sidux-graphics, xloadimage, distro-defaults, xf
 Conflicts: xsession-initscript-kanotix
 Suggests: 915resolution
 Architecture: all
-Description: Starts X-Window system from INIT on Sidux
- Custom Initscripts for the Sidux live X11 capabilities.
+Description: Starts X-Window system from INIT on sidux
+ Custom Initscripts for the sidux live X11 capabilities.
