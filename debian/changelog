@@ -1,11 +1,13 @@
-xsession-initscript-sidux (0.6.14) UNRELEASED; urgency=low
+xsession-initscript-sidux (0.6.14) unstable; urgency=low
 
-  * NOT RELEASED YET
-
+  [ Joaquim Boura ]
   * Initial version for sidux
   * fixed mispelling
 
- -- Joaquim Boura <x-un-i@sidux.com>  Mon,  4 Dec 2006 15:12:21 +0100
+  [ Stefan Lippers-Hollmann ]
+  * minor debian/control cosmetics:
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue,  5 Dec 2006 15:00:02 +0100
 
 xsession-initscript-kanotix (0.6.13) unstable; urgency=low
 
