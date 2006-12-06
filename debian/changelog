@@ -1,9 +1,5 @@
-xsession-initscript-sidux (0.6.15) UNRELEASED; urgency=low
+xsession-initscript-sidux (0.6.15) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Niall Walsh ]
   * Use /bin/sh to run /etc/X11/xinit/xinitrc
 
  -- Niall Walsh <niallwalsh@users.berlios.de>  Wed,  6 Dec 2006 14:41:59 +0000
