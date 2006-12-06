@@ -217,7 +217,7 @@ EOF
 		touch "$XSESSION_COMMANDS"
 		chown $FLL_LIVE_USER:$FLL_LIVE_USER "$XSESSION_COMMANDS"
 
-		su -c "DISPLAY=:0 exec /etc/X11/xinit/xinitrc" - $FLL_LIVE_USER >/dev/null 2>&1
+		su -c "DISPLAY=:0 exec /bin/sh /etc/X11/xinit/xinitrc" - $FLL_LIVE_USER >/dev/null 2>&1
 		RC="$?"
 
 		XSESSION_COMMAND=$(cat "$XSESSION_COMMANDS") # Read in what kde / ... told us.
