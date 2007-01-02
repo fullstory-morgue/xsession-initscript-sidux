@@ -5,9 +5,9 @@
 
 # override tool behaviour through distro-defaults
 FLL_DISTRO_MODE="installed"
-FLL_LIVE_USER="knoppix"
+FLL_LIVE_USER="sidux"
 if [ -r /etc/default/distro ]; then
-        source /etc/default/distro
+        . /etc/default/distro
 fi
 
 # don't ever start me on an installed system
